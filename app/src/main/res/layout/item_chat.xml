@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:contentPadding="5dp"
+    android:longClickable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/chat_profile_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/avatar_default"
+            app:civ_border_color="#FF000000" />
+
+        <TextView
+            android:id="@+id/chat_display_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/chat_profile_image"
+            android:maxLength="20"
+            android:text="Display Name"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageView
+            android:id="@+id/chat_message_status"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/chat_display_name"
+            android:layout_marginStart="78dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold"
+            card_view:srcCompat="@drawable/message_read" />
+
+        <TextView
+            android:id="@+id/chat_last_message_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/chat_display_name"
+            android:layout_marginStart="108dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="Last Message"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/chat_last_message_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/chat_display_name"
+            android:layout_marginStart="107dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="Last Message"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="gone"
+            card_view:srcCompat="@mipmap/ic_image_black" />
+
+
+        <TextView
+            android:id="@+id/chat_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="Time"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
