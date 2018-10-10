@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,15 +16,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jgabrielfreitas.core.BlurImageView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
     private EditText passwordCheck, confirmedPass, email_ID;
-
     private CardView cardView_CreateAccount;
-
     private ProgressDialog mRegProgress;
 
 
@@ -40,22 +40,20 @@ public class RegisterActivity extends AppCompatActivity {
 
         mRegProgress = new ProgressDialog(this);
 
-
         passwordCheck = findViewById(R.id.txt_Password);
         confirmedPass = findViewById(R.id.txt_ConfirmedPass);
         email_ID = findViewById(R.id.txt_Email);
-
         cardView_CreateAccount = findViewById(R.id.btn_CreateAccount);
+
+        setBtnState(false);
+        update();
 
         cardView_CreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createUserAccount();
-
             }
         });
-
-
     }
 
     private void blurBackgroundImage() {
@@ -65,27 +63,59 @@ public class RegisterActivity extends AppCompatActivity {
         blurImageView.setBlur(2);
     }
 
-    public void createAccount(View view) {
+    private void update() {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+
+                while (!isInterrupted()) {
+
+                    try {
+                        Thread.sleep(1000);
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                if (!isEmailValid(email_ID) || passwordCheck.getText().toString().isEmpty() || confirmedPass.getText().toString().isEmpty())
+                                    setBtnState(false);
+                                else
+                                    setBtnState(true);
+                            }
+                        });
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        t.start();
     }
 
-    private void createUserAccount()
-    {
+    public static boolean isEmailValid(EditText email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email.getText().toString());
+        return matcher.matches();
+    }
+
+
+    private void createUserAccount() {
+
         String email = email_ID.getText().toString();
         String password = passwordCheck.getText().toString();
         String confirmedPassword = confirmedPass.getText().toString();
 
-        if (!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(confirmedPassword)) {
-            if (password.equals(confirmedPassword))
-            {
+        if (password.equals(confirmedPassword)) {
 
-                showProcessDialog();
-                registerUser(email, password);
+            showProcessDialog();
+            registerUser(email, password);
 
-            }
-            else
-                Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
         } else
-            Toast.makeText(getApplicationContext(), "Missing fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -119,11 +149,20 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showProcessDialog()
-    {
+    private void showProcessDialog() {
         mRegProgress.setTitle("Register");
         mRegProgress.setMessage("Please wait until your account is registering!");
         mRegProgress.setCanceledOnTouchOutside(false);
         mRegProgress.show();
+    }
+
+    private void setBtnState(boolean state) {
+        if (state) {
+            cardView_CreateAccount.setEnabled(true);
+            cardView_CreateAccount.setAlpha(1.0f);
+        } else {
+            cardView_CreateAccount.setEnabled(false);
+            cardView_CreateAccount.setAlpha(.5f);
+        }
     }
 }

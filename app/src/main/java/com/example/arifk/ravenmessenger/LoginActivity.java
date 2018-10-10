@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -16,12 +16,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jgabrielfreitas.core.BlurImageView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
     private EditText inputEmail, inputPassword;
+    private CardView cardView_Login;
     private ProgressBar loadingBar;
 
     @Override
@@ -35,10 +39,11 @@ public class LoginActivity extends AppCompatActivity {
 
         inputEmail = findViewById(R.id.input_email);
         inputPassword = findViewById(R.id.input_password);
-
+        cardView_Login = findViewById(R.id.loginCardView);
         loadingBar = findViewById(R.id.loadingBar);
 
-
+        setBtnState(false);
+        update();
     }
 
     private void blurBackgroundImage() {
@@ -54,17 +59,49 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void update() {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+
+                while (!isInterrupted()) {
+
+                    try {
+                        Thread.sleep(1000);
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                if (!isEmailValid(inputEmail) || inputPassword.getText().toString().isEmpty())
+                                    setBtnState(false);
+                                else
+                                    setBtnState(true);
+                            }
+                        });
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        t.start();
+    }
+
+    public static boolean isEmailValid(EditText email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email.getText().toString());
+        return matcher.matches();
+    }
+
+
     public void loginAccount(View view) {
 
         String email = inputEmail.getText().toString();
         final String password = inputPassword.getText().toString();
-
-        if (TextUtils.isEmpty(email))
-            Toast.makeText(getApplicationContext(), "Enter Eamil", Toast.LENGTH_SHORT).show();
-
-        if (TextUtils.isEmpty(password))
-            Toast.makeText(getApplicationContext(), "Enter Password", Toast.LENGTH_SHORT).show();
-
 
         loadingBar.setVisibility(View.VISIBLE);
 
@@ -88,7 +125,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-
+    private void setBtnState(boolean state) {
+        if (state) {
+            cardView_Login.setEnabled(true);
+            cardView_Login.setAlpha(1.0f);
+        } else {
+            cardView_Login.setEnabled(false);
+            cardView_Login.setAlpha(.5f);
+        }
     }
 }

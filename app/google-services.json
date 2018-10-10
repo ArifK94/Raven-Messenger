@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "383899595014",
+    "firebase_url": "https://ravenmessenger-fc86c.firebaseio.com",
+    "project_id": "ravenmessenger-fc86c",
+    "storage_bucket": "ravenmessenger-fc86c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383899595014:android:cf6c76e9760fe634",
+        "android_client_info": {
+          "package_name": "com.example.arifk.ravenmessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383899595014-mdcdqrnatf257r9usogc3ubedemshr42.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arifk.ravenmessenger",
+            "certificate_hash": "56456d94d10c14d7c9aae761508cb6bf792f67db"
+          }
+        },
+        {
+          "client_id": "383899595014-3r5n8h0mfo42cgd1d53g71r127ernd2h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOFdYKDF0pkxN22yBJEfEb5a9_LkSNkPI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383899595014-3r5n8h0mfo42cgd1d53g71r127ernd2h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
