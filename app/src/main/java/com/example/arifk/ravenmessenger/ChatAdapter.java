@@ -73,13 +73,38 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (holder.getItemViewType()) {
             case SENT:
                 initLayoutOne((SentMessageViewHolder) holder, position);
+                messageDetails((SentMessageViewHolder) holder);
                 break;
             case RECEIVED:
                 initLayoutTwo((ReceivedMessageViewHolder) holder, position);
                 break;
         }
+
     }
 
+    private void messageDetails(final SentMessageViewHolder holder) {
+
+        final boolean[] isClicked = {false};
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                isClicked[0] = !isClicked[0];
+
+                if (isClicked[0]) {
+
+                    holder.messageTime.setVisibility(View.GONE);
+                    holder.messageStatus.setVisibility(View.GONE);
+                }
+                else
+                {
+                    holder.messageTime.setVisibility(View.VISIBLE);
+                    holder.messageStatus.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
 
     private void initLayoutOne(SentMessageViewHolder holder, int pos) {
 

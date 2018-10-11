@@ -81,6 +81,8 @@ public class ChatRoomActivity extends AppCompatActivity {
     private ImageButton mBtnSend;
     private ProgressBar mProgressUpload;
 
+    private static boolean active = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -327,12 +329,25 @@ public class ChatRoomActivity extends AppCompatActivity {
                     );
                 }
 
-//                if (messages.size() > 0) {
-//                    if (currentUserID.equals(messages.get(0).getRecipient())) {
-//                        mMessage_State = "Read";
-//                        updateMessageState();
-//                    }
-//                }
+                // if both users within chat room, check messages as read
+                if (active)
+                {
+                    if (messages.size() > 0 ) {
+                        for (Chat message : messages)
+                        {
+                            if (!message.getMessage_status().equals("Read"))
+                            {
+                                if (currentUserID.equals(message.getRecipient())) {
+                                    mMessage_State = "Read";
+                                    updateMessageState();
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+
 
 
                 messageAdapter = new ChatAdapter(messages, currentUserID);
@@ -345,6 +360,18 @@ public class ChatRoomActivity extends AppCompatActivity {
         messageRef.document(currentUserID).collection("Conversations").document(profile_UserID).collection("OnetoOneChat")
                 .orderBy(KEY_TIMESTAMP, Query.Direction.DESCENDING)
                 .addSnapshotListener(listener);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
     }
 
 
