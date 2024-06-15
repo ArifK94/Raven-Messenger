@@ -8,15 +8,15 @@ A chat app. Created in Android Studio using Firebase.
   - Google Firebase
 
 ## Features
-# Create Account
+### Create Account
   - Sign Up / Sign in
   - Display name
   - Unique Username
   - Profile Page
-# Login
+### Login
   - Email and Password
 
-# Account Settings
+### Account Settings
   - Update Display Name
   - Update Email
   - Update Password
@@ -28,15 +28,15 @@ A chat app. Created in Android Studio using Firebase.
   - View Chats Count
   - View Requests / Sent Count
 
-## Main Page
+### Main Page
   - Conversation List
   - Friends List
 
-## Chats Page
+### Chats Page
   -  View all conversations
   - Hold on conversation to view chat room or delete chat on current user’s server side
 
-## Chat Room
+### Chat Room
   - View other user’s name
   - View other user’s profile picture
   - Send messages
@@ -45,11 +45,11 @@ A chat app. Created in Android Studio using Firebase.
   - Send images
   - View images
 
-## Friends Page
+### Friends Page
   - View all current user’s friends
   - Press on a friend to go to their profile page
 
-## Friend Requests
+### Friend Requests
   - Send friend request
   - Cancel friend request
   - Accept friend request
